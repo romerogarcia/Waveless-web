@@ -1,63 +1,34 @@
 <header class="header">
   <div class="header__bar">
-    <a class="header__logo" href="/" aria-label="Waveless, ir al inicio">
+    <a class="header__logo" routerLink="/" aria-label="Waveless, ir al inicio" (click)="closeMenu()">
       <img class="header__logoIcon" src="/img/logo-waveless.png" alt="Logo de la web Waveless">
     </a>
 
     <nav class="header__nav" [class.header__nav--open]="isMenuOpen()" id="header-nav" aria-label="Navegación principal">
       <ul class="header__links">
-        <li>
-          <a
-            class="header__link"
-            [class.header__link--active]="activeLink() === 'aventura'"
-            [attr.aria-current]="activeLink() === 'aventura' ? 'page' : null"
-            href="#"
-            (click)="setActiveLink('aventura')"
-          >
-            <img class="header__linkIcon" src="/icons/icon-adventure.svg" alt="">
-            Aventura
-          </a>
-        </li>
-        <li>
-          <a
-            class="header__link"
-            [class.header__link--active]="activeLink() === 'destinos'"
-            [attr.aria-current]="activeLink() === 'destinos' ? 'page' : null"
-            href="#"
-            (click)="setActiveLink('destinos')"
-          >
-            <img class="header__linkIcon" src="/icons/icon-destination.svg" alt="">
-            Destinos
-          </a>
-        </li>
-        <li>
-          <a
-            class="header__link"
-            [class.header__link--active]="activeLink() === 'alojamiento'"
-            [attr.aria-current]="activeLink() === 'alojamiento' ? 'page' : null"
-            href="#alojamiento"
-            (click)="setActiveLink('alojamiento')"
-          >
-            <img class="header__linkIcon" src="/icons/icon-house.svg" alt="">
-            Alojamiento
-          </a>
-        </li>
-        <li>
-          <a
-            class="header__link"
-            [class.header__link--active]="activeLink() === 'sobre-nosotros'"
-            [attr.aria-current]="activeLink() === 'sobre-nosotros' ? 'page' : null"
-            href="#sobre-nosotros"
-            (click)="setActiveLink('sobre-nosotros')"
-          >
-            Sobre nosotros
-          </a>
-        </li>
+        @for (link of links; track link.path) {
+          <li>
+            <a
+              class="header__link"
+              [routerLink]="link.path"
+              routerLinkActive="header__link--active"
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+              (click)="closeMenu()"
+            >
+              @if (link.icon) {
+                <img class="header__linkIcon" [src]="'/icons/icon-' + link.icon + '.svg'" alt="">
+              }
+              {{ link.label }}
+            </a>
+          </li>
+        }
       </ul>
     </nav>
-    <button type="button" class="header__btn btn-primary">Reserva</button>
+    <a class="header__btn btn-primary" routerLink="/destinos" (click)="closeMenu()">Reserva</a>
     <button
       type="button"
+      #menuButton
       class="header__btnBurguer"
       [attr.aria-expanded]="isMenuOpen()"
       aria-controls="header-nav"

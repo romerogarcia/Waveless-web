@@ -1,15 +1,21 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, viewChild } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Header } from './layout/header/header';
-import { Hero } from './features/home/hero/hero';
-import { Title } from './components/title/title';
-import { Filters } from './features/home/filters/filters';
-import { FilterResults } from './features/home/filter-results/filter-results';
 import { Footer } from './layout/footer/footer';
 
 @Component({
   selector: 'wl-root',
-  imports: [Header, Hero, Title, Filters, FilterResults, Footer],
+  imports: [Header, RouterOutlet, Footer],
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {}
+export class App {
+  private readonly main = viewChild.required<ElementRef<HTMLElement>>('main');
+
+  // Con <base href="/"> un href="#contenido" navegaría a la home; movemos el foco a mano.
+  protected skipToContent(event: Event): void {
+    event.preventDefault();
+    this.main().nativeElement.focus();
+  }
+}

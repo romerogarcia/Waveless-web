@@ -5,27 +5,21 @@
   (close)="close.emit()"
 >
   <p class="breakdown__place">
-    <span class="breakdown__placeName">Marruecos, África</span>
-    <span class="breakdown__placeDays">9 días</span>
+    <span class="breakdown__placeName">{{ view().place }}</span>
+    <span class="breakdown__placeDays">{{ view().duration }}</span>
   </p>
 
   <div class="breakdown__details">
-    <div class="breakdown__row">
-      <span class="breakdown__rowLabel">Precio antes de impuestos</span>
-      <span class="breakdown__rowValue">1.124,00 €</span>
-    </div>
-    <div class="breakdown__row">
-      <span class="breakdown__rowLabel">Impuesto</span>
-      <span class="breakdown__rowValue">4,43 €</span>
-    </div>
-    <div class="breakdown__row">
-      <span class="breakdown__rowLabel">Lorem ipsum</span>
-      <span class="breakdown__rowValue">150,42 €</span>
-    </div>
+    @for (row of view().rows; track row.label) {
+      <div class="breakdown__row">
+        <span class="breakdown__rowLabel">{{ row.label }}</span>
+        <span class="breakdown__rowValue">{{ row.value }}</span>
+      </div>
+    }
   </div>
 
   <div class="breakdown__totalPrice" modalFooter>
     <span class="breakdown__totalLabel">Precio final</span>
-    <span class="breakdown__totalValue">2.455,00 €</span>
+    <span class="breakdown__totalValue">{{ view().total }}</span>
   </div>
 </wl-modal>

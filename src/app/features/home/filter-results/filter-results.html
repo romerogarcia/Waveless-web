@@ -1,22 +1,18 @@
-<section class="filterResults">
-  <div class="filterResults__group">
-    <h3 class="filterResults__groupHeading">Asia</h3>
-    <div class="filterResults__cardList">
-      <wl-card imageUrl="/img/card-image-1.png" />
-      <wl-card imageUrl="/img/card-image-2.png" />
-      <wl-card imageUrl="/img/card-image-3.png" />
-    </div>
-  </div>
+<section class="filterResults" aria-label="Resultados">
 
-  <div class="filterResults__group">
-    <h3 class="filterResults__groupHeading">Asia</h3>
-    <div class="filterResults__cardList">
-      <wl-card imageUrl="/img/card-image-1.png" />
-      <wl-card imageUrl="/img/card-image-2.png" />
-      <wl-card imageUrl="/img/card-image-3.png" />
-      <wl-card imageUrl="/img/card-image-1.png" />
-      <wl-card imageUrl="/img/card-image-2.png" />
-      <wl-card imageUrl="/img/card-image-3.png" />
+  <!-- Anuncia a los lectores de pantalla cuántos resultados hay al cambiar un filtro -->
+  <p class="sr-only" role="status" aria-live="polite">
+    {{ store.resultCount() === 1 ? '1 destino encontrado' : store.resultCount() + ' destinos encontrados' }}
+  </p>
+
+  @for (group of store.groups(); track group.heading) {
+    <wl-card-group [heading]="group.heading" [destinations]="group.items" />
+  } @empty {
+    <div class="filterResults__empty">
+      <p class="filterResults__emptyText">No hay destinos con estos filtros.</p>
+      <button type="button" class="filterResults__emptyBtn btn-secondary" (click)="store.reset()">
+        Borrar filtros
+      </button>
     </div>
-  </div>
+  }
 </section>

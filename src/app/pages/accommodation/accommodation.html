@@ -1,0 +1,10 @@
+<wl-hero [slides]="slides" label="Alojamiento destacado" />
+<wl-title
+  heading="Alojamientos con encanto"
+  subtitle="Del tatami de un ryokan a un haveli en Jaipur: duerme en espacios con historia."
+/>
+<div class="page__content">
+  @for (group of groups(); track group.heading) {
+    <wl-card-group [heading]="group.heading" [destinations]="group.items" />
+  }
+</div>

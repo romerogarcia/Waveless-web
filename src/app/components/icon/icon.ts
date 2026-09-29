@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 // Componente reutilizable para referenciar los SVG de public/icons/ sin
 // duplicar el marcado en cada sitio donde se usan. Convención de nombre:
@@ -8,6 +8,7 @@ import { Component, input } from '@angular/core';
   imports: [],
   templateUrl: './icon.html',
   styleUrl: './icon.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Icon {
   readonly name = input.required<string>();

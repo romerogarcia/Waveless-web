@@ -1,11 +1,12 @@
 @if (open()) {
-  <div class="modal__backdrop" (click)="close.emit()"></div>
+  <div class="modal__backdrop" [class.modal__backdrop--dim]="centered()" (click)="close.emit()"></div>
 
   <div
     #panel
     class="modal"
     [class.modal--anchored]="anchored()"
     [class.modal--float-left]="floatLeft()"
+    [class.modal--centered]="centered()"
     [style.transform]="anchoredOffsetX() ? 'translateX(' + anchoredOffsetX() + 'px)' : null"
     tabindex="-1"
     role="dialog"
@@ -13,7 +14,7 @@
     [attr.aria-labelledby]="headingId"
   >
     <div class="modal__header">
-      <h3 class="modal__heading" [id]="headingId">{{ heading() }}</h3>
+      <h2 class="modal__heading" [id]="headingId">{{ heading() }}</h2>
       <button type="button" class="modal__closeBtn" aria-label="Cerrar" (click)="close.emit()">
         <fa-icon [icon]="faXmark" aria-hidden="true"></fa-icon>
       </button>

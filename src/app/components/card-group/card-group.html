@@ -1,0 +1,8 @@
+<section class="cardGroup" [attr.aria-labelledby]="anchorId()">
+  <h2 class="cardGroup__heading" [id]="anchorId()" tabindex="-1">{{ heading() }}</h2>
+  <ul class="cardGroup__list">
+    @for (destination of destinations(); track destination.id) {
+      <li class="cardGroup__item"><wl-card [destination]="destination" /></li>
+    }
+  </ul>
+</section>

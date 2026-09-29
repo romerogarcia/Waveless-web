@@ -74,3 +74,22 @@ body {
   font-family: inherit;
   font-weight: 600;
 }
+
+/* Enlace "Saltar al contenido": oculto hasta que recibe el foco con el teclado */
+.skip-link {
+  background-color: var(--color-purple);
+  border-radius: 0 0 8px 8px;
+  color: var(--color-white);
+  font-weight: 700;
+  left: 16px;
+  padding: 12px 20px;
+  position: absolute;
+  text-decoration: none;
+  top: 0;
+  transform: translateY(-100%);
+  z-index: 1000;
+
+  &:focus {
+    transform: translateY(0);
+  }
+}

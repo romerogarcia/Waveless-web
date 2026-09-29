@@ -1,36 +1,44 @@
-
-<section class="hero" aria-roledescription="carrusel" aria-label="Destacados">
+<section class="hero" [attr.aria-label]="label()">
+  <!-- init="false": Swiper se configura e inicia desde hero.ts (ver ngAfterViewInit) -->
   <swiper-container
     #swiperEl
     class="hero__swiper"
-    pagination="true"
-    pagination-clickable="true"
-    space-between="0"
-    [injectStyles]="paginationStyles"
+    init="false"
+    (swiperslidechange)="onSlideChange($event)"
   >
-    @for (slide of slides; track $index) {
-      <swiper-slide class="hero__slide">
-        <img class="hero__bg" [src]="slide.image" alt="">
+    @for (slide of slides(); track $index; let i = $index) {
+      <!-- Solo la diapositiva visible es accesible por teclado y lector de pantalla -->
+      <swiper-slide class="hero__slide" [attr.inert]="i === activeIndex() ? null : ''">
+        <img
+          class="hero__bg"
+          [src]="slide.image"
+          alt=""
+          [attr.fetchpriority]="i === 0 ? 'high' : null"
+          [attr.loading]="i === 0 ? null : 'lazy'"
+        >
         <div class="hero__overlay" aria-hidden="true"></div>
 
         <div class="hero__content">
-          <div class="hero__statusTagContainer">
-            <span class="hero__statusTag">Pending approval</span>
-            <wl-icon name="line-status-tag" class="hero__statusLine" />
-            <wl-icon name="circle-status-tag" class="hero__statusCircle" />
-          </div>
-          <h1 class="hero__title">{{ slide.title }}</h1>
+          <!-- No es un h1: el título principal de la página lo pone wl-title -->
+          <p class="hero__title">{{ slide.title }}</p>
           <p class="hero__subtitle">{{ slide.subtitle }}</p>
-          <button type="button" class="hero__cta btn-primary">Más información</button>
+          @if (slide.link) {
+            <a class="hero__cta btn-primary" [routerLink]="slide.link" [fragment]="slide.fragment">
+              Más información<span class="sr-only"> sobre {{ slide.title }}</span>
+            </a>
+          }
         </div>
       </swiper-slide>
     }
   </swiper-container>
 
-  <button type="button" class="hero__arrow hero__arrow--prev" aria-label="Anterior" (click)="slidePrev()">
-    <fa-icon [icon]="faChevronLeft" aria-hidden="true"></fa-icon>
-  </button>
-  <button type="button" class="hero__arrow hero__arrow--next" aria-label="Siguiente" (click)="slideNext()">
-    <fa-icon [icon]="faChevronRight" aria-hidden="true"></fa-icon>
-  </button>
+  <!-- Las flechas solo tienen sentido si hay más de una slide -->
+  @if (slides().length > 1) {
+    <button type="button" class="hero__arrow hero__arrow--prev" aria-label="Diapositiva anterior" (click)="slidePrev()">
+      <fa-icon [icon]="faChevronLeft" aria-hidden="true"></fa-icon>
+    </button>
+    <button type="button" class="hero__arrow hero__arrow--next" aria-label="Diapositiva siguiente" (click)="slideNext()">
+      <fa-icon [icon]="faChevronRight" aria-hidden="true"></fa-icon>
+    </button>
+  }
 </section>

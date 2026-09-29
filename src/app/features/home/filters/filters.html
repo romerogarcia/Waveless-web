@@ -1,118 +1,59 @@
-
-<ng-template #filtersContent>
+<!--
+  El formulario se pinta dos veces (modal hasta 1199px y aside desde 1200px), así que
+  recibe un prefijo para que los ids no se repitan en el DOM.
+-->
+<ng-template #filtersContent let-prefix="prefix">
   <form class="filters" (submit)="onSubmit($event)">
-    <div class="filters__section">
-      <button
-        type="button"
-        class="filters__row"
-        [class.filters__row--active]="isOpen('destinos')"
-        [attr.aria-expanded]="isOpen('destinos')"
-        aria-controls="filters-panel-destinos"
-        (click)="toggleSection('destinos')"
-      >
-        <span class="filters__rowIcon" style="--row-icon-url: url('/icons/icon-destination.svg')" aria-hidden="true"></span>
-        <span class="filters__rowLabel">Destinos</span>
-        <fa-icon
-          class="filters__rowChevron"
-          [icon]="isOpen('destinos') ? faChevronDown : faChevronRight"
-          aria-hidden="true"
-        ></fa-icon>
-      </button>
+    @for (group of groups(); track group.key) {
+      <div class="filters__section">
+        <button
+          type="button"
+          class="filters__row"
+          [class.filters__row--active]="isOpen(group.key)"
+          [attr.aria-expanded]="isOpen(group.key)"
+          [attr.aria-controls]="prefix + '-panel-' + group.key"
+          (click)="toggleSection(group.key)"
+        >
+          <span
+            class="filters__rowIcon"
+            [style.--row-icon-url]="'url(/icons/icon-' + group.icon + '.svg)'"
+            aria-hidden="true"
+          ></span>
+          <span class="filters__rowLabel">{{ group.label }}</span>
+          <fa-icon
+            class="filters__rowChevron"
+            [icon]="isOpen(group.key) ? faChevronDown : faChevronRight"
+            aria-hidden="true"
+          ></fa-icon>
+        </button>
 
-      @if (isOpen('destinos')) {
-        <fieldset class="filters__fieldset" id="filters-panel-destinos">
-          <legend class="sr-only">Destinos</legend>
+        @if (isOpen(group.key)) {
+          <fieldset class="filters__fieldset" [id]="prefix + '-panel-' + group.key">
+            <legend class="sr-only">{{ group.label }}</legend>
 
-          <div class="filters__checkboxList">
-            @for (option of destinationOptions; track $index) {
-              <label class="filters__checkbox">
-                <input type="checkbox" [checked]="option.checked" />
-                <span class="filters__checkboxLabel">{{ option.label }}</span>
-                <wl-tooltip text="Lorem ipsum">
-                  <img class="filters__checkboxInfo" src="/icons/icon-info.svg" alt="">
-                </wl-tooltip>
-              </label>
-            }
-          </div>
-        </fieldset>
-      }
-    </div>
-
-    <div class="filters__section">
-      <button
-        type="button"
-        class="filters__row"
-        [class.filters__row--active]="isOpen('aventura')"
-        [attr.aria-expanded]="isOpen('aventura')"
-        aria-controls="filters-panel-aventura"
-        (click)="toggleSection('aventura')"
-      >
-        <span class="filters__rowIcon" style="--row-icon-url: url('/icons/icon-adventure.svg')" aria-hidden="true"></span>
-        <span class="filters__rowLabel">Aventura</span>
-        <fa-icon
-          class="filters__rowChevron"
-          [icon]="isOpen('aventura') ? faChevronDown : faChevronRight"
-          aria-hidden="true"
-        ></fa-icon>
-      </button>
-
-      @if (isOpen('aventura')) {
-        <fieldset class="filters__fieldset" id="filters-panel-aventura">
-          <legend class="sr-only">Aventura</legend>
-
-          <div class="filters__checkboxList">
-            @for (activity of activities; track activity.label) {
-              <label class="filters__checkbox">
-                <input type="checkbox" [checked]="activity.checked" />
-                <span class="filters__checkboxLabel">{{ activity.label }}</span>
-                <wl-tooltip text="Lorem ipsum">
-                  <img class="filters__checkboxInfo" src="/icons/icon-info.svg" alt="">
-                </wl-tooltip>
-              </label>
-            }
-          </div>
-
-          <button type="button" class="filters__moreLink">Ver 21 más</button>
-        </fieldset>
-      }
-    </div>
-
-    <div class="filters__section">
-      <button
-        type="button"
-        class="filters__row"
-        [class.filters__row--active]="isOpen('alojamiento')"
-        [attr.aria-expanded]="isOpen('alojamiento')"
-        aria-controls="filters-panel-alojamiento"
-        (click)="toggleSection('alojamiento')"
-      >
-        <span class="filters__rowIcon" style="--row-icon-url: url('/icons/icon-house.svg')" aria-hidden="true"></span>
-        <span class="filters__rowLabel">Alojamiento</span>
-        <fa-icon
-          class="filters__rowChevron"
-          [icon]="isOpen('alojamiento') ? faChevronDown : faChevronRight"
-          aria-hidden="true"
-        ></fa-icon>
-      </button>
-
-      @if (isOpen('alojamiento')) {
-        <fieldset class="filters__fieldset" id="filters-panel-alojamiento">
-          <legend class="sr-only">Alojamiento</legend>
-
-          <div class="filters__checkboxList">
-            @for (option of accommodationOptions; track $index) {
-              <label class="filters__checkbox">
-                <input type="checkbox" [checked]="option.checked" />
-                <span class="filters__checkboxLabel">{{ option.label }}</span>
-                <wl-tooltip text="Lorem ipsum">
-                  <img class="filters__checkboxInfo" src="/icons/icon-info.svg" alt="">
-                </wl-tooltip>
-              </label>
-            }
-          </div>
-        </fieldset>
-      }
-    </div>
+            <div class="filters__checkboxList">
+              @for (option of group.options; track option.value) {
+                <div class="filters__checkbox">
+                  <label class="filters__checkboxMain">
+                    <input
+                      type="checkbox"
+                      [checked]="option.checked"
+                      (change)="onOptionChange(group.key, option.value)"
+                    />
+                    <span class="filters__checkboxLabel">{{ option.label }}</span>
+                  </label>
+                  @if (option.tooltip) {
+                    <wl-tooltip [text]="option.tooltip" [label]="'Más información sobre ' + option.label">
+                      <img class="filters__checkboxInfo" src="/icons/icon-info.svg" alt="">
+                    </wl-tooltip>
+                  }
+                </div>
+              }
+            </div>
+          </fieldset>
+        }
+      </div>
+    }
 
     <div class="filters__section filters__section--last">
       <button
@@ -120,10 +61,14 @@
         class="filters__row"
         [class.filters__row--active]="isOpen('precio')"
         [attr.aria-expanded]="isOpen('precio')"
-        aria-controls="filters-panel-precio"
+        [attr.aria-controls]="prefix + '-panel-precio'"
         (click)="toggleSection('precio')"
       >
-        <span class="filters__rowIcon" style="--row-icon-url: url('/icons/icon-price-color.svg')" aria-hidden="true"></span>
+        <span
+          class="filters__rowIcon"
+          style="--row-icon-url: url('/icons/icon-price-color.svg')"
+          aria-hidden="true"
+        ></span>
         <span class="filters__rowLabel">Precio</span>
         <fa-icon
           class="filters__rowChevron"
@@ -133,22 +78,46 @@
       </button>
 
       @if (isOpen('precio')) {
-        <fieldset class="filters__fieldset" id="filters-panel-precio">
-          <legend class="sr-only">Precio</legend>
+        <fieldset class="filters__fieldset" [id]="prefix + '-panel-precio'">
+          <legend class="sr-only">Precio en euros</legend>
 
           <div class="filters__priceInputs">
             <label class="filters__priceField">
               <span class="filters__priceIcon" aria-hidden="true"></span>
-              <input type="number" placeholder="Mínimo" class="filters__priceInput" />
+              <span class="sr-only">Precio mínimo en euros</span>
+              <input
+                type="number"
+                inputmode="numeric"
+                min="0"
+                placeholder="Mínimo"
+                class="filters__priceInput"
+                [value]="store.state().priceMin ?? ''"
+                (input)="onPriceInput('priceMin', $event)"
+              />
             </label>
             <label class="filters__priceField">
               <span class="filters__priceIcon" aria-hidden="true"></span>
-              <input type="number" placeholder="Máximo" class="filters__priceInput" />
+              <span class="sr-only">Precio máximo en euros</span>
+              <input
+                type="number"
+                inputmode="numeric"
+                min="0"
+                placeholder="Máximo"
+                class="filters__priceInput"
+                [value]="store.state().priceMax ?? ''"
+                (input)="onPriceInput('priceMax', $event)"
+              />
             </label>
           </div>
         </fieldset>
       }
     </div>
+
+    @if (store.activeCount() > 0) {
+      <button type="button" class="filters__moreLink filters__reset" (click)="store.reset()">
+        Borrar filtros ({{ store.activeCount() }})
+      </button>
+    }
   </form>
 </ng-template>
 
@@ -159,29 +128,26 @@
     class="filters__toggleBtn"
     (click)="toggle()"
     [attr.aria-expanded]="open()"
-    aria-controls="filters-modal"
+    aria-haspopup="dialog"
   >
     <img class="filters__toggleIcon" src="/icons/icon-filter.svg" alt="">
     Ver filtros
+    @if (store.activeCount() > 0) {
+      <span class="filters__badge">{{ store.activeCount() }}<span class="sr-only"> activos</span></span>
+    }
   </button>
 </div>
 
-<wl-modal
-  id="filters-modal"
-  [open]="open()"
-  heading="Filtrar mi búsqueda"
-  [floatLeft]="true"
-  (close)="toggle()"
->
-  <ng-container [ngTemplateOutlet]="filtersContent"></ng-container>
+<wl-modal [open]="open()" heading="Filtrar mi búsqueda" [floatLeft]="true" (close)="toggle()">
+  <ng-container *ngTemplateOutlet="filtersContent; context: { prefix: 'modal' }"></ng-container>
 </wl-modal>
 
 <!-- Desde 1200px: aside estático siempre visible (se oculta por CSS hasta 1199px). -->
-<aside class="filters__sidebar" aria-label="Filtrar mi búsqueda">
+<aside class="filters__sidebar" aria-labelledby="filters-sidebar-heading">
   <div class="filters__sidebarHeader">
-    <h3 class="filters__sidebarHeading">Filtrar mi búsqueda</h3>
+    <h2 class="filters__sidebarHeading" id="filters-sidebar-heading">Filtrar mi búsqueda</h2>
   </div>
   <div class="filters__sidebarContent">
-    <ng-container [ngTemplateOutlet]="filtersContent"></ng-container>
+    <ng-container *ngTemplateOutlet="filtersContent; context: { prefix: 'sidebar' }"></ng-container>
   </div>
 </aside>

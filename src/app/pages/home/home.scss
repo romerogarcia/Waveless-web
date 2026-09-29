@@ -1,0 +1,18 @@
+@use 'styles' as bp;
+
+:host {
+  display: block;
+}
+
+.home__content {
+  position: relative;
+}
+
+.home__filterResultsRow {
+  @media (min-width: bp.$breakpoint-wide) {
+    align-items: flex-start;
+    display: flex;
+    gap: 24px;
+    padding: 0 91px 72px 91px;
+  }
+}

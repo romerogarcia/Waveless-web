@@ -14,6 +14,8 @@
       --swiper-pagination-bullet-inactive-color: var(--color-white);
       --swiper-pagination-bullet-inactive-opacity: 0.6;
       --swiper-pagination-bullet-horizontal-gap: 4px;
+      // Área táctil de 24x24 para los puntos (WCAG 2.5.8); el punto visible sigue siendo de 10px
+      --swiper-pagination-bullet-size: 24px;
 
       @media (min-width: bp.$breakpoint-tablet) {
          --swiper-pagination-bottom: 32px;
@@ -50,52 +52,6 @@
       justify-content: center;
    }
 
-   &__statusTagContainer {
-      align-items: flex-start;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      left: 12px;
-      position: absolute;
-      top: 24px;
-      z-index: 2;
-
-      @media (min-width: bp.$breakpoint-tablet) {
-         flex-direction: column-reverse;
-         bottom: 50px;
-         left: 40px;
-      }
-
-      @media (min-width: bp.$breakpoint-desktop) {
-         display: none;
-      }
-   }
-
-   &__statusCircle {
-      display: block;
-      flex-shrink: 0;
-   }
-
-   &__statusLine {
-      display: block;
-      flex-shrink: 0;
-   }
-
-   &__statusTag {
-      background-color: var(--color-pink);
-      border-radius: 8px;
-      box-sizing: border-box;
-      color: var(--color-white);
-      font-family: 'Poppins', var(--font-base);
-      font-size: 1.5rem;
-      font-weight: 600;
-      line-height: 28px;
-      padding: 6px 16px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      width: 273px;
-   }
-
    &__title {
       color: var(--color-white);
       font-family: var(--font-display);
@@ -126,6 +82,10 @@
 
    &__cta {
       background-color: var(--color-orange);
+      box-sizing: border-box;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
       color: var(--color-text);
       font-size: 1.25rem;
       margin-top: 48px;

@@ -276,3 +276,27 @@ span.filters__rowIcon {
       outline-offset: 2px;
    }
 }
+
+// La etiqueta clicable (checkbox + texto) va separada del tooltip para que
+// pulsar la "i" no marque/desmarque la opción.
+.filters__checkboxMain {
+   align-items: center;
+   cursor: pointer;
+   display: flex;
+   flex: 1;
+   gap: 8px;
+}
+
+.filters__reset {
+   margin: 8px 16px 16px;
+}
+
+.filters__badge {
+   background-color: var(--color-purple);
+   border-radius: var(--radius-pill);
+   color: var(--color-white);
+   font-size: 0.875rem;
+   line-height: 1;
+   margin-left: 4px;
+   padding: 4px 8px;
+}

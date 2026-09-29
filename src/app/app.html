@@ -1,14 +1,10 @@
+<!-- Primer elemento enfocable: permite a quien navega con teclado saltarse la cabecera -->
+<a class="skip-link" href="#contenido" (click)="skipToContent($event)">Saltar al contenido</a>
+
 <wl-header />
 
-<main>
-  <wl-hero />
-  <div class="app__content">
-    <wl-title />
-    <div class="app__filterResultsRow">
-      <wl-filters />
-      <wl-filter-results />
-    </div>
-  </div>
+<main id="contenido" tabindex="-1" #main>
+  <router-outlet />
 </main>
 
 <wl-footer />

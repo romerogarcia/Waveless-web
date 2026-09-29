@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:pages": "ng build && node -e \"require('fs').copyFileSync('dist/waveless/browser/index.html','dist/waveless/browser/404.html')\"",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

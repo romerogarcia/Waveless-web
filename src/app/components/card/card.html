@@ -1,29 +1,70 @@
 <article class="card">
   <div class="card__media">
-    <img class="card__image" [src]="imageUrl()" alt="Descubre Bangkok con Iberojet">
-    <span class="card__badge">Quads</span>
+    <img
+      class="card__image"
+      [src]="destination().imageUrl"
+      [alt]="destination().imageAlt"
+      width="800"
+      height="600"
+      loading="lazy"
+      decoding="async"
+    >
+    <span class="card__badge">{{ destination().category }}</span>
   </div>
 
   <div class="card__body">
-    <p class="card__place">Marruecos, África <span class="card__days">9 días</span></p>
-    <h3 class="card__title">Descubre Bangkok con Iberojet</h3>
+    <p class="card__place">
+      {{ destination().place }} <span class="card__days">{{ destination().duration }}</span>
+    </p>
+    <h3 class="card__title">{{ destination().title }}</h3>
   </div>
 
   <div class="card__footer">
     <div class="card__footerTop">
-      <button type="button" class="card__detailsLink" (click)="openBreakdown()">
-        Ver desglose
+      <button
+        type="button"
+        class="card__detailsLink"
+        aria-haspopup="dialog"
+        [attr.aria-expanded]="breakdownOpen()"
+        (click)="openBreakdown()"
+      >
+        Ver desglose<span class="sr-only"> de {{ destination().title }}</span>
         <fa-icon [icon]="faChevronDown" aria-hidden="true"></fa-icon>
       </button>
 
-      <wl-card-price-details [open]="breakdownOpen()" (close)="closeBreakdown()" />
+      <wl-card-price-details
+        [open]="breakdownOpen()"
+        [destination]="destination()"
+        (close)="closeBreakdown()"
+      />
     </div>
 
     <div class="card__price">
       <span class="card__priceLabel">Desde</span>
-      <span class="card__priceValue">248,00 €</span>
+      <span class="card__priceValue">{{ price() }}</span>
     </div>
 
-    <button type="button" class="card__reserveBtn btn-secondary">Reservar</button>
+    <button
+      type="button"
+      class="card__reserveBtn btn-secondary"
+      aria-haspopup="dialog"
+      (click)="openReserve()"
+    >
+      Reservar<span class="sr-only"> {{ destination().title }}</span>
+    </button>
   </div>
+
+  <!-- Esta web es una demo: "Reservar" confirma la selección pero no hace una reserva real -->
+  <wl-modal [open]="reserveOpen()" heading="Solicitud de reserva" [centered]="true" (close)="closeReserve()">
+    <div class="card__reserve">
+      <p class="card__reserveTitle">{{ destination().title }}</p>
+      <p class="card__reserveMeta">{{ destination().place }} · {{ destination().duration }} · desde {{ price() }}</p>
+      <p class="card__reserveNote">
+        Waveless es una web de demostración, así que todavía no se pueden hacer reservas reales.
+      </p>
+    </div>
+    <div class="card__reserveFooter" modalFooter>
+      <button type="button" class="card__reserveOk btn-primary" (click)="closeReserve()">Entendido</button>
+    </div>
+  </wl-modal>
 </article>

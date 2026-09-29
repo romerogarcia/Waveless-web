@@ -1,4 +1,14 @@
-import { Component, ElementRef, HostListener, effect, input, output, signal, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  effect,
+  input,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,12 +22,15 @@ const ANCHORED_EDGE_MARGIN = 8;
   imports: [FaIconComponent],
   templateUrl: './modal.html',
   styleUrl: './modal.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Modal {
   readonly open = input<boolean>(false);
   readonly heading = input<string>('');
   readonly anchored = input<boolean>(false);
   readonly floatLeft = input<boolean>(false);
+  // Caja centrada con fondo oscurecido (desde tablet); en móvil ocupa toda la pantalla.
+  readonly centered = input<boolean>(false);
   readonly close = output<void>();
 
   protected readonly faXmark = faXmark;

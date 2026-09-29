@@ -1,0 +1,45 @@
+<wl-title
+  heading="Sobre nosotros"
+  subtitle="Para los que les gusta explorar y conocer mundo sin complejos."
+/>
+<div class="page__content">
+  <section class="about__intro" aria-labelledby="about-story">
+    <img
+      class="about__image"
+      src="/img/photos/sobre-nosotros.webp"
+      alt=""
+      width="1200"
+      height="800"
+      decoding="async"
+    >
+    <div class="about__text">
+      <h2 class="about__heading" id="about-story">Nuestra historia</h2>
+      <p>
+        Waveless nació de un primer viaje a Japón que cambió nuestra forma de viajar. Desde entonces
+        preparamos rutas por toda Asia, de Japón y Corea a Tailandia, Vietnam o la India, para personas curiosas, con ganas de aventura y
+        de conocer cada lugar más allá de la postal.
+      </p>
+      <p>
+        Somos un equipo pequeño: planificamos cada detalle, te acompañamos antes y durante el viaje
+        y seguimos aprendiendo de cada persona que viaja con nosotros.
+      </p>
+    </div>
+  </section>
+
+  <section aria-labelledby="about-values">
+    <h2 class="about__heading" id="about-values">Lo que nos mueve</h2>
+    <ul class="about__values">
+      @for (value of values; track value.title) {
+        <li class="about__value">
+          <wl-icon [name]="value.icon" class="about__valueIcon" />
+          <h3 class="about__valueTitle">{{ value.title }}</h3>
+          <p class="about__valueText">{{ value.text }}</p>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <div class="about__cta">
+    <a class="about__ctaBtn btn-primary" routerLink="/destinos">Ver destinos</a>
+  </div>
+</div>

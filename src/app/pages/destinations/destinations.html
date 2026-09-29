@@ -1,0 +1,10 @@
+<wl-hero [slides]="slides" label="Destinos destacados" />
+<wl-title
+  heading="Destinos en Asia"
+  subtitle="De Japón a la India: rutas pensadas para descubrir Asia a tu ritmo."
+/>
+<div class="page__content">
+  @for (group of groups(); track group.heading) {
+    <wl-card-group [heading]="group.heading" [destinations]="group.items" />
+  }
+</div>
