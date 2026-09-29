@@ -8,7 +8,6 @@ import { FilterStore } from '../../features/home/filters/filter.store';
 @Component({
   selector: 'wl-home-page',
   imports: [Hero, Title, Filters, FilterResults],
-  // Una instancia de FilterStore por página: la comparten wl-filters y wl-filter-results.
   providers: [FilterStore],
   templateUrl: './home.html',
   styleUrl: './home.scss',

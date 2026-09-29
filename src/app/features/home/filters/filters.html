@@ -1,7 +1,4 @@
-<!--
-  El formulario se pinta dos veces (modal hasta 1199px y aside desde 1200px), así que
-  recibe un prefijo para que los ids no se repitan en el DOM.
--->
+
 <ng-template #filtersContent let-prefix="prefix">
   <form class="filters" (submit)="onSubmit($event)">
     @for (group of groups(); track group.key) {

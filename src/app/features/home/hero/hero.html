@@ -1,5 +1,4 @@
 <section class="hero" [attr.aria-label]="label()">
-  <!-- init="false": Swiper se configura e inicia desde hero.ts (ver ngAfterViewInit) -->
   <swiper-container
     #swiperEl
     class="hero__swiper"
@@ -7,7 +6,6 @@
     (swiperslidechange)="onSlideChange($event)"
   >
     @for (slide of slides(); track $index; let i = $index) {
-      <!-- Solo la diapositiva visible es accesible por teclado y lector de pantalla -->
       <swiper-slide class="hero__slide" [attr.inert]="i === activeIndex() ? null : ''">
         <img
           class="hero__bg"
@@ -19,7 +17,6 @@
         <div class="hero__overlay" aria-hidden="true"></div>
 
         <div class="hero__content">
-          <!-- No es un h1: el título principal de la página lo pone wl-title -->
           <p class="hero__title">{{ slide.title }}</p>
           <p class="hero__subtitle">{{ slide.subtitle }}</p>
           @if (slide.link) {
@@ -32,7 +29,6 @@
     }
   </swiper-container>
 
-  <!-- Las flechas solo tienen sentido si hay más de una slide -->
   @if (slides().length > 1) {
     <button type="button" class="hero__arrow hero__arrow--prev" aria-label="Diapositiva anterior" (click)="slidePrev()">
       <fa-icon [icon]="faChevronLeft" aria-hidden="true"></fa-icon>

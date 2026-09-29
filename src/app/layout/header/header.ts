@@ -4,7 +4,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 interface NavLink {
   path: string;
   label: string;
-  /** Icono de public/icons (opcional). */
   icon?: string;
 }
 
@@ -24,7 +23,6 @@ export class Header {
   private readonly menuButton = viewChild<ElementRef<HTMLButtonElement>>('menuButton');
 
   // "Aventura" es la home. RouterLinkActive marca el link de la página actual
-  // (clase --active + aria-current="page").
   protected readonly links: NavLink[] = [
     { path: '/', label: 'Aventura', icon: 'adventure' },
     { path: '/destinos', label: 'Destinos', icon: 'destination' },

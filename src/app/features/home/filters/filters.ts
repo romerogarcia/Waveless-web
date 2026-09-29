@@ -8,7 +8,7 @@ import { AccommodationOption, FilterStore } from './filter.store';
 
 // Las 4 secciones del acordeón de filtros. Un union type en vez de un string
 // suelto: así el compilador avisa si en la plantilla escribimos mal el
-// nombre de una sección (p.ej. 'aventuraa').
+// nombre de una sección
 type FilterSection = 'destinos' | 'aventura' | 'alojamiento' | 'precio';
 type CheckboxSection = Exclude<FilterSection, 'precio'>;
 
@@ -26,7 +26,7 @@ interface CheckboxGroup {
   options: CheckboxOption[];
 }
 
-// Textos de ayuda de cada opción (se muestran en el tooltip "i").
+// Textos de ayuda de cada opción
 const HELP: Record<string, string> = {
   Japón: 'Montañas sagradas, templos e islas tropicales',
   'Corea del Sur': 'Parques nacionales e islas volcánicas',
@@ -48,11 +48,6 @@ const ACCOMMODATION_LABELS: Record<AccommodationOption, string> = {
   'solo-actividad': 'Solo actividad',
 };
 
-// wl-filters es autocontenido y tiene dos presentaciones del mismo
-// formulario (comparten contenido vía <ng-template #filtersContent>, ver
-// filters.html): hasta 1199px es un botón "Ver filtros" + wl-modal
-// (variante floatLeft); desde 1200px es un aside estático siempre visible.
-// El estado vive en FilterStore, que también lee wl-filter-results.
 @Component({
   selector: 'wl-filters',
   imports: [FaIconComponent, Tooltip, Modal, NgTemplateOutlet],

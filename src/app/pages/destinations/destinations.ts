@@ -14,7 +14,6 @@ import { DestinationsService } from '../../services/destinations.service';
 export class DestinationsPage {
   protected readonly groups = inject(DestinationsService).destinationGroups;
 
-  // Cada slide enlaza con su grupo de la misma página (el id sale del título del grupo).
   protected readonly slides: HeroSlide[] = [
     {
       title: 'Japón',

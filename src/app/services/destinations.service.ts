@@ -5,7 +5,7 @@ import { Destination } from '../models/destination';
 /**
  * Punto único de acceso a los datos de destinos y alojamientos.
  * Hoy lee los datos estáticos de `data/asia.ts`; el día que haya una API,
- * solo cambia este servicio (p. ej. con `httpResource`) y los componentes no se enteran.
+ * solo cambia este servicio
  */
 @Injectable({ providedIn: 'root' })
 export class DestinationsService {
@@ -17,7 +17,7 @@ export class DestinationsService {
 
   readonly destinations = computed(() => this.destinationGroups().flatMap((group) => group.items));
 
-  /** Región (encabezado del grupo) al que pertenece cada destino, indexada por id. */
+  /** Región al que pertenece cada destino, indexada por id. */
   readonly regionById = computed(() => {
     const map = new Map<string, string>();
     for (const group of this.destinationGroups()) {
@@ -28,7 +28,7 @@ export class DestinationsService {
     return map;
   });
 
-  /** Devuelve los destinos con esos ids, en el mismo orden (ignora ids que no existan). */
+  /** Devuelve los destinos con esos ids, en el mismo orden. */
   byIds(ids: readonly string[]): Destination[] {
     const all = this.destinations();
     return ids
